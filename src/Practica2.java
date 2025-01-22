@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Random;
 public class Practica2 {
@@ -15,7 +16,7 @@ public class Practica2 {
             generarTablero(nivel,tam,tablero);
             mostrarTableroConCorchete(tablero);
 
-            System.out.println("\nNivel de juego ( L ) :" + "\t\tNuevo nivel:");
+            System.out.println("\nNivel de juego ( L ) :" + nivel);
             System.out.println("\nGolpes:");
             System.out.println("Intrucciones:");
             System.out.println("\t Mueva el cursor a un botón del tablero (con las flechas).");
@@ -51,12 +52,18 @@ public class Practica2 {
 
                 }
                 case "L" -> { // Seleccionar nivel de dificultad
-
+                    System.out.print("Nivel de juego ( L ) : " + nivel + "\t\tNuevo nivel (1-9): ");
                     do {
-                        System.out.println("Nuevo nivel: (1-9)");
-                        nivel = sc.nextInt();
-                        if (nivel < 1 || nivel > 9) {
-                            System.out.println("Nivel incorrecto");
+                        try {
+                            nivel = sc.nextInt();
+
+                            if (nivel < 1 || nivel > 9) {
+                            System.out.print("Nivel incorrecto \nNuevo nivel (1-9): ");
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.print("Dato incorrecto \nNuevo nivel (1-9): ");
+                            sc.nextLine(); //Consumir el buffer
+                            nivel = -1; // forzar para repetir el bucle.
                         }
                     }while (nivel < 1 || nivel > 9);
 
