@@ -52,20 +52,25 @@ public class Practica2 {
 
                 }
                 case "L" -> { // Seleccionar nivel de dificultad
-                    System.out.print("Nivel de juego ( L ) : " + nivel + "\t\tNuevo nivel (1-9): ");
+                    int nivelNuevo = nivel;
                     do {
                         try {
-                            nivel = sc.nextInt();
+                            System.out.print("Nivel de juego ( L ) : " + nivel + "\t\tNuevo nivel (1-9): ");
 
-                            if (nivel < 1 || nivel > 9) {
-                            System.out.print("Nivel incorrecto \nNuevo nivel (1-9): ");
+                            nivelNuevo = sc.nextInt();
+                            sc.nextLine();
+
+                            if (nivelNuevo < 1 || nivelNuevo > 9) {
+                            System.out.println("Nivel incorrecto");
+                            }else {
+                                nivel = nivelNuevo;
                             }
                         } catch (InputMismatchException e) {
-                            System.out.print("Dato incorrecto \nNuevo nivel (1-9): ");
+                            System.out.println("Dato incorrecto");
                             sc.nextLine(); //Consumir el buffer
-                            nivel = -1; // forzar para repetir el bucle.
+                            nivelNuevo = -1;
                         }
-                    }while (nivel < 1 || nivel > 9);
+                    }while (nivelNuevo < 1 || nivelNuevo > 9);
 
                 }
                 case "S" -> { // Salir del programa
