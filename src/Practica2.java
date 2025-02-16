@@ -16,8 +16,8 @@ public class Practica2 {
     private static int columnaCorchete = 1;
     private static int[][] tablero = new int[tam][tam];
     private static int[][] tableroCopia = new int[tam][tam];
-    private static int[] golpesFilas = new int[100];
-    private static int[] golpesColumnas = new int[100];
+    private static int[] golpesFilas = new int[0];
+    private static int[] golpesColumnas = new int[0];
 
     public static final int VK_UP = 0x26;   // Tecla flecha arriba
     public static final int VK_DOWN = 0x28; // Tecla flecha abajo
@@ -176,9 +176,31 @@ public class Practica2 {
                 if ((User32.INSTANCE.GetAsyncKeyState(LETRA_U) & 0x8000) != 0) {
                     if (!uPressed) {
                         if (golpes > 0) {
-                            golpes--;
-                            deshacerGolpe(); // Deshacer el golpe
-                        } else {
+                            // Obtener la última posición antes de reducir el tamaño
+                            deshacerGolpe(); // Llamar antes de modificar los arrays
+
+                            golpes--; // Reducimos golpes antes de modificar los arrays
+
+                            if (golpes == 0) {
+                                // Si no quedan golpes, dejamos los arrays vacíos
+                                golpesFilas = new int[0];
+                                golpesColumnas = new int[0];
+                            } else {
+                                // Crear nuevos arrays con un espacio menos
+                                int[] nuevoGolpesFilas = new int[golpes];
+                                int[] nuevoGolpesColumnas = new int[golpes];
+
+                                // Copiar todos los valores excepto el último
+                                for (int i = 0; i < golpes; i++) { // Ahora el límite es "golpes"
+                                    nuevoGolpesFilas[i] = golpesFilas[i];
+                                    nuevoGolpesColumnas[i] = golpesColumnas[i];
+                                }
+
+                                // Reemplazar los arrays antiguos con los nuevos
+                                golpesFilas = nuevoGolpesFilas;
+                                golpesColumnas = nuevoGolpesColumnas;
+                            }
+                        }else {
                             System.out.println("No hay golpes para deshacer.");
                         }
                         uPressed = true; // Marcamos que ya se ha presionado
@@ -409,11 +431,30 @@ public class Practica2 {
     // Función para restar 1 al valor de la casilla selecciona y sus vecinas
     public static void golpear(int fila, int columna,int golpe) {
 
+        int[] nuevoGolpesFilas = new int[golpe + 1];
+        int[] nuevoGolpesColumnas = new int[golpe + 1];
+
+        // Copiar los datos actuales al nuevo array
+        for (int i = 0; i < golpe; i++) {
+            nuevoGolpesFilas[i] = golpesFilas[i];
+            nuevoGolpesColumnas[i] = golpesColumnas[i];
+        }
+
+        // Agregar el nuevo golpe
+        nuevoGolpesFilas[golpe] = fila;
+        nuevoGolpesColumnas[golpe] = columna;
+
+        // Reemplazar los arrays antiguos por los nuevos
+        golpesFilas = nuevoGolpesFilas;
+        golpesColumnas = nuevoGolpesColumnas;
+
+        golpes++; // Aumentamos el contador
+
         // Añadimos la fila y la columna a los Arrays con el nº de golpe correspondiente para luego poder acceder a ellos si queremos deshacer el
         // golpe.
-        golpesFilas[golpe] = fila;
-        golpesColumnas[golpe] = columna;
-        golpes++; // Aumentamos en 1 la cantidad de golpes que llevamos.
+        //golpesFilas[golpe] = fila;
+        //golpesColumnas[golpe] = columna;
+        //golpes++; // Aumentamos en 1 la cantidad de golpes que llevamos.
 
         // Restamos los valores de la casilla seleccionada y sus vecinas.
         decrementar(fila, columna); // Casilla seleccionada
@@ -421,29 +462,6 @@ public class Practica2 {
         decrementar(fila + 1, columna); // Abajo
         decrementar(fila, columna - 1); // Izquierda
         decrementar(fila, columna + 1); // Derecha
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 
@@ -513,16 +531,20 @@ public class Practica2 {
     // Función para deshacer el golpe realizado.
     public static void deshacerGolpe() {
 
-        // Recuperamos la última posición registrada
-        int fila = golpesFilas[golpes];
-        int columna = golpesColumnas[golpes];
+        if (golpes > 0) {
+            // Recuperamos la última posición registrada con el índice correcto
+            int fila = golpesFilas[golpes - 1];  // Usamos golpes - 1
+            int columna = golpesColumnas[golpes - 1];
 
-        // Restauramos la celda y las vecinas sumando 1
-        aumentar(fila, columna);
-        aumentar(fila - 1, columna);
-        aumentar(fila + 1, columna);
-        aumentar(fila, columna - 1);
-        aumentar(fila, columna + 1);
+            // Restauramos la celda y las vecinas sumando 1
+            aumentar(fila, columna);
+            aumentar(fila - 1, columna);
+            aumentar(fila + 1, columna);
+            aumentar(fila, columna - 1);
+            aumentar(fila, columna + 1);
+        } else {
+            System.out.println("No hay golpes para deshacer.");
+        }
 
     }
 
