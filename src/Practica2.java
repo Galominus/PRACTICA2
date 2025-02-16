@@ -591,9 +591,6 @@ public class Practica2 {
         }
     }
 
-
-
-
 }
 
 
