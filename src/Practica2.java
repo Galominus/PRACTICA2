@@ -551,12 +551,14 @@ public class Practica2 {
         boolean ganador = true;
 
         // Recorremos con dos bucles For el tablero.
-        for (int i = 1; i < 7; i++) {
-            for (int j = 1; j < 7; j++) {
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 6; j++) {
                 if (tablero[i][j] != 0) {
                     ganador = false; // Si encontramos un valor distinto de 0, no está resuelto.
+                    break;
                 }
             }
+
         }
 
         return ganador;
