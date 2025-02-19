@@ -11,12 +11,12 @@ public class Practica2 {
 
     private static Random rand = new Random();
     private static int golpes = 0;
-    private static int tam = 8;
+    private final static int TAM = 8;
     private static int nivel = 5;
     private static int filaCorchete = 1;
     private static int columnaCorchete = 1;
-    private static int[][] tablero = new int[tam][tam];
-    private static int[][] tableroCopia = new int[tam][tam];
+    private static int[][] tablero = new int[TAM][TAM];
+    private static int[][] tableroCopia = new int[TAM][TAM];
     private static int[] golpesFilas = new int[0];
     private static int[] golpesColumnas = new int[0];
 
@@ -374,16 +374,16 @@ public class Practica2 {
     public static void generarTablero(int nivel) {
 
         // Inicializamos el tablero con ceros
-        for (int i = 0; i < tam - 1; i++) {
-            for (int j = 0; j < tam - 1; j++) {
+        for (int i = 1; i < TAM - 1; i++) {
+            for (int j = 1; j < TAM - 1; j++) {
                 tablero[i][j] = 0;
             }
         }
 
         // Generamos el tablero dependiendo del nivel de dificultad, con golpes aleatorios
         for (int i = 0; i < nivel * 3; i++) {
-            int fila = rand.nextInt(1, tam - 1);
-            int columna = rand.nextInt(1, tam - 1);
+            int fila = rand.nextInt(1, TAM - 1);
+            int columna = rand.nextInt(1, TAM - 1);
             aumentar(fila, columna); // Casilla seleccionada
             aumentar(fila - 1, columna); // Arriba
             aumentar(fila + 1, columna); // Abajo
@@ -394,8 +394,8 @@ public class Practica2 {
 
         //Generamos una copia del tablero generado
 
-        for (int i = 0; i < tam - 1; i++) {
-            for (int j = 0; j < tam - 1; j++) {
+        for (int i = 1; i < TAM - 1; i++) {
+            for (int j = 1; j < TAM - 1; j++) {
                 tableroCopia[i][j] = tablero[i][j];
             }
         }
@@ -407,8 +407,8 @@ public class Practica2 {
     public static void mostrarTableroConCorchete(int fila, int columna) {
 
         //Mostramos dos corchetes en una determinada casilla para saber dónde vamos a golpear.
-        for (int i = 1; i < 7; i++) {
-            for (int j = 1; j < 7; j++) {
+        for (int i = 1; i < TAM - 1; i++) {
+            for (int j = 1; j < TAM - 1; j++) {
 
                 if (i == fila && j == columna) {
                     System.out.print("[" + tablero[i][j] + "]" + "  ");
@@ -422,8 +422,8 @@ public class Practica2 {
 
     // Función para copiar el Tablero original con el corchete, al tablero copia.
     public static void copiarTableroConCorchete() {
-        for (int i = 1; i < 7; i++) {
-            for (int j = 1; j < 7; j++) {
+        for (int i = 1; i < TAM - 1; i++) {
+            for (int j = 1; j < TAM - 1; j++) {
                 tablero[i][j] = tableroCopia[i][j];
 
             }
@@ -487,7 +487,7 @@ public class Practica2 {
     public static int moverArriba(int fila) {
         fila--;
 
-        // Si baja más allá de la fila 1, vuelve a la última fila
+        // Si sube más allá de la fila 1, vuelve a la última fila.
         if (fila < 1) {
             fila = 6;
         }
@@ -497,7 +497,9 @@ public class Practica2 {
     // Función para bajar la casilla seleccionada.
     public static int moverAbajo(int fila) {
         fila++;
-        if (fila > 6) {  // Si baja más allá de la fila 1, vuelve a la última fila
+
+        // Si baja más allá de la fila 6, vuelve a la primera fila.
+        if (fila > 6) {
             fila = 1;
         }
         return fila;
@@ -507,7 +509,7 @@ public class Practica2 {
     public static int moverIzq(int columna) {
         columna--;
 
-        // Si baja más allá de la fila 1, vuelve a la última fila.
+        // Si va más allá de la columna 1, vuelve a la última columna.
         if (columna < 1) {
             columna = 6;
         }
@@ -518,7 +520,7 @@ public class Practica2 {
     public static int moverDcha(int columna) {
         columna++;
 
-        // Si baja más allá de la fila 1, vuelve a la última fila.
+        // Si va más allá de la fila 6, vuelve a la primera columna.
         if (columna > 6) {
             columna = 1;
         }
@@ -551,8 +553,8 @@ public class Practica2 {
         boolean ganador = true;
 
         // Recorremos con dos bucles For el tablero.
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 6; j++) {
+        for (int i = 1; i < TAM - 1; i++) {
+            for (int j = 1; j < TAM - 1; j++) {
                 if (tablero[i][j] != 0) {
                     ganador = false; // Si encontramos un valor distinto de 0, no está resuelto.
                     break;
