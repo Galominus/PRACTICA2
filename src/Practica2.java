@@ -93,8 +93,43 @@ public class Practica2 {
             System.out.println("Objetivo:");
             System.out.println("\t Dejar todos los botones en '0'.");
 
+            // Verificamos si el tablero está a cero.
+            if (tableroAcabado()) {
+                System.out.println("¡Felicidades! Has ganado el juego.");
+                int golpesNivel = obtenerGolpesEsperados();
+                // Dependiendo del número de golpes usado y de la dificultad, mostramos distintos mensajes.
+                if (golpes == golpesNivel) {
+                    System.out.println("Perfecto. Hecho en " + golpes + " golpes.");
+                } else if (golpes < golpesNivel) {
+                    System.out.println("Extraordinariamente bien: Hecho en " + golpes + " golpes.");
+                } else {
+                    System.out.println("Hecho en " + golpes + " golpes.");
+                }
+
+                System.out.println("Nivel alcanzado: " + nivel);
+                System.out.println("Presiona Enter para continuar con un nuevo tablero...");
+                // Esperar a que el jugador presione Enter.
+                // Verifica si la tecla Enter es presionada y aún no ha sido registrada.
+                while (true) {
+                    //Si presionamos la tecla Enter, generamos un nuevo tablero del mismo nivel y reiniciamos los golpes.
+                    if ((User32.INSTANCE.GetAsyncKeyState(VK_ENTER) & 0x8000) != 0) {
+                        if (!enterPressed) {
+                            generarTablero(nivel);  // Generar nuevo tablero del mismo nivel.
+                            golpes = 0;  // Restablecer los golpes.
+                            enterPressed = true; // Marcamos que ya se ha presionado.
+                            break;
+                        }
+                    } else {
+                        enterPressed = false;// Restablecemos el estado cuando la tecla se ha soltado.
+                    }
+                }
+
+            }
+
+
             // Bucle para detectar las pulsaciones de teclas.
             while (true) {
+
                 // Verifica si la tecla de "flecha arriba" es presionada y aún no ha sido registrada.
                 if ((User32.INSTANCE.GetAsyncKeyState(VK_UP) & 0x8000) != 0) {
                     if (!upPressed) {
@@ -334,44 +369,14 @@ public class Practica2 {
 
             }
 
-            // Verificamos si el tablero está a cero después de cada golpe.
-            if (tableroAcabado()) {
-                System.out.println("¡Felicidades! Has ganado el juego.");
-                int golpesNivel = obtenerGolpesEsperados();
-                // Dependiendo del número de golpes usado y de la dificultad, mostramos distintos mensajes.
-                if (golpes == golpesNivel) {
-                    System.out.println("Perfecto. Hecho en " + golpes + " golpes.");
-                } else if (golpes < golpesNivel) {
-                    System.out.println("Extraordinariamente bien: Hecho en " + golpes + " golpes.");
-                } else {
-                    System.out.println("Hecho en " + golpes + " golpes.");
-                }
-
-                System.out.println("Nivel alcanzado: " + nivel);
-                System.out.println("Presiona Enter para continuar con un nuevo tablero...");
-                // Esperar a que el jugador presione Enter.
-                // Verifica si la tecla Enter es presionada y aún no ha sido registrada.
-                while (true) {
-                    //Si presionamos la tecla Enter, generamos un nuevo tablero del mismo nivel y reiniciamos los golpes.
-                    if ((User32.INSTANCE.GetAsyncKeyState(VK_ENTER) & 0x8000) != 0) {
-                        if (!enterPressed) {
-                            generarTablero(nivel);  // Generar nuevo tablero del mismo nivel.
-                            golpes = 0;  // Restablecer los golpes.
-                            enterPressed = true; // Marcamos que ya se ha presionado.
-                            break;
-                        }
-                    } else {
-                        enterPressed = false;// Restablecemos el estado cuando la tecla se ha soltado.
-                    }
-                }
-
-            }
-
         } while (!opcion.equals("S")); //Bucle hasta que se presiona la tecla S.
     }
 
     // Función para generar un tablero dependiendo del nivel.
     public static void generarTablero(int nivel) {
+
+        //reseteamos el contador golpes
+        golpes = 0;
 
         // Inicializamos el tablero con ceros
         for (int i = 1; i < TAM - 1; i++) {
@@ -399,7 +404,6 @@ public class Practica2 {
                 tableroCopia[i][j] = tablero[i][j];
             }
         }
-
 
     }
 
@@ -470,6 +474,7 @@ public class Practica2 {
         if (tablero[fila][columna] < 0) {
             tablero[fila][columna] = 3;
         }
+
     }
 
     // Función para aumentar en 1 el valor de una casilla.
