@@ -12,6 +12,7 @@ public class Practica2 {
     private static Random rand = new Random();
     private static int golpes = 0;
     private final static int TAM = 8;
+    private final static int VALOR_MAX = 3;
     private static int nivel = 5;
     private static int filaCorchete = 1;
     private static int columnaCorchete = 1;
@@ -124,249 +125,250 @@ public class Practica2 {
                     }
                 }
 
-            }
+            } else {
 
 
-            // Bucle para detectar las pulsaciones de teclas.
-            while (true) {
+                // Bucle para detectar las pulsaciones de teclas.
+                while (true) {
 
-                // Verifica si la tecla de "flecha arriba" es presionada y aún no ha sido registrada.
-                if ((User32.INSTANCE.GetAsyncKeyState(VK_UP) & 0x8000) != 0) {
-                    if (!upPressed) {
-                        filaCorchete = moverArriba(filaCorchete);
-                        upPressed = true; // Marcamos que ya se ha presionado
-                        break;
-                    }
-                } else {
-                    upPressed = false;// Restablecemos el estado cuando la tecla se ha soltado
-                }
-
-                // Verifica si la tecla de "flecha abajo" es presionada y aún no ha sido registrada.
-                if ((User32.INSTANCE.GetAsyncKeyState(VK_DOWN) & 0x8000) != 0) {
-                    if (!downPressed) {
-                        filaCorchete = moverAbajo(filaCorchete);
-                        downPressed = true;
-                        break;
-                    }
-                } else {
-                    downPressed = false;
-                }
-
-                // Verifica si la tecla de "flecha izquierda" es presionada y aún no ha sido registrada.
-                if ((User32.INSTANCE.GetAsyncKeyState(VK_LEFT) & 0x8000) != 0) {
-                    if (!leftPressed) {
-                        columnaCorchete = moverIzq(columnaCorchete);
-                        leftPressed = true;
-                        break;
-                    }
-                } else {
-                    leftPressed = false;
-                }
-
-                // Verifica si la tecla de "flecha derecha" es presionada y aún no ha sido registrada.
-                if ((User32.INSTANCE.GetAsyncKeyState(VK_RIGHT) & 0x8000) != 0) {
-                    if (!rightPressed) {
-                        columnaCorchete = moverDcha(columnaCorchete);
-                        rightPressed = true;
-                        break;
-                    }
-                } else {
-                    rightPressed = false;
-                }
-
-                // Verifica si la tecla "Enter" es presionada y aún no ha sido registrada
-                if ((User32.INSTANCE.GetAsyncKeyState(VK_ENTER) & 0x8000) != 0) {
-                    if (!enterPressed) {
-                        golpear(filaCorchete, columnaCorchete, golpes);
-                        enterPressed = true; // Marcamos que ya se ha presionado
-                        break;
-                    }
-                } else {
-                    enterPressed = false;// Restablecemos el estado cuando la tecla se ha soltado
-                }
-
-                // Verifica si la tecla "N" es presionada y aún no ha sido registrada
-                if ((User32.INSTANCE.GetAsyncKeyState(LETRA_N) & 0x8000) != 0) {
-                    if (!nPressed) {
-                        golpes = 0;
-                        generarTablero(nivel);
-                        nPressed = true; // Marcamos que ya se ha presionado
-                        break;
-                    }
-                } else {
-                    nPressed = false;// Restablecemos el estado cuando la tecla se ha soltado
-                }
-
-                // Verifica si la tecla "R" es presionada y aún no ha sido registrada
-                if ((User32.INSTANCE.GetAsyncKeyState(LETRA_R) & 0x8000) != 0) {
-                    if (!rPressed) {
-                        golpes = 0;
-                        copiarTableroConCorchete();
-                        rPressed = true; // Marcamos que ya se ha presionado
-                        break;
-                    }
-                } else {
-                    rPressed = false;// Restablecemos el estado cuando la tecla se ha soltado
-                }
-                // Verifica si la tecla "U" es presionada y aún no ha sido registrada
-                if ((User32.INSTANCE.GetAsyncKeyState(LETRA_U) & 0x8000) != 0) {
-                    if (!uPressed) {
-                        if (golpes > 0) {
-                            // Obtener la última posición antes de reducir el tamaño.
-                            deshacerGolpe(); // Llamar antes de modificar los arrays.
-
-                            golpes--; // Reducimos golpes antes de modificar los arrays.
-
-                            if (golpes == 0) {
-                                // Si no quedan golpes, dejamos los arrays vacíos.
-                                golpesFilas = new int[0];
-                                golpesColumnas = new int[0];
-                            } else {
-                                // Crear nuevos arrays con un espacio menos.
-                                int[] nuevoGolpesFilas = new int[golpes];
-                                int[] nuevoGolpesColumnas = new int[golpes];
-
-                                // Copiar todos los valores excepto el último.
-                                for (int i = 0; i < golpes; i++) { // Ahora el límite es "golpes"
-                                    nuevoGolpesFilas[i] = golpesFilas[i];
-                                    nuevoGolpesColumnas[i] = golpesColumnas[i];
-                                }
-
-                                // Reemplazar los arrays antiguos con los nuevos.
-                                golpesFilas = nuevoGolpesFilas;
-                                golpesColumnas = nuevoGolpesColumnas;
-                            }
-                        } else {
-                            System.out.println("No hay golpes para deshacer.");
+                    // Verifica si la tecla de "flecha arriba" es presionada y aún no ha sido registrada.
+                    if ((User32.INSTANCE.GetAsyncKeyState(VK_UP) & 0x8000) != 0) {
+                        if (!upPressed) {
+                            filaCorchete = moverArriba(filaCorchete);
+                            upPressed = true; // Marcamos que ya se ha presionado
+                            break;
                         }
-                        uPressed = true; // Marcamos que ya se ha presionado
-                        break;
+                    } else {
+                        upPressed = false;// Restablecemos el estado cuando la tecla se ha soltado
                     }
-                } else {
-                    uPressed = false;// Restablecemos el estado cuando la tecla se ha soltado.
-                }
 
-                // Verifica si la tecla "L" es presionada y aún no ha sido registrada.
-                if ((User32.INSTANCE.GetAsyncKeyState(LETRA_L) & 0x8000) != 0) {
-
-
-                    //Seleccionamos el nivel de dificultad del tablero.
-                    if (!lPressed) {
-                        String nivelNuevo = String.valueOf(nivel);
-
-                        System.out.print("Nivel de juego ( L ) : " + nivel + "\t\tNuevo nivel (1-9): ");
-
-                        // Dificultades del 1 al 9.
-                        while (true) {
-
-                            if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_1) & 0x8000) != 0) {
-                                if (!unoPressed) {
-                                    nivelNuevo = "1";
-                                    unoPressed = true; // Marcamos que ya se ha presionad
-                                    break;
-                                }
-                            } else {
-                                unoPressed = false;// Restablecemos el estado cuando la tecla se ha soltado
-                            }
-                            if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_2) & 0x8000) != 0) {
-                                if (!dosPressed) {
-                                    nivelNuevo = "2";
-                                    dosPressed = true; // Marcamos que ya se ha presionado
-                                    break;
-                                }
-                            } else {
-                                dosPressed = false;// Restablecemos el estado cuando la tecla se ha soltado
-                            }
-                            if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_3) & 0x8000) != 0) {
-                                if (!tresPressed) {
-                                    nivelNuevo = "3";
-                                    tresPressed = true; // Marcamos que ya se ha presionado
-                                    break;
-                                }
-                            } else {
-                                tresPressed = false;// Restablecemos el estado cuando la tecla se ha soltado
-                            }
-                            if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_4) & 0x8000) != 0) {
-                                if (!cuatroPressed) {
-                                    nivelNuevo = "4";
-                                    cuatroPressed = true; // Marcamos que ya se ha presionado
-                                    break;
-                                }
-                            } else {
-                                cuatroPressed = false;// Restablecemos el estado cuando la tecla se ha soltado
-                            }
-                            if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_5) & 0x8000) != 0) {
-                                if (!cincoPressed) {
-                                    nivelNuevo = "5";
-                                    cincoPressed = true; // Marcamos que ya se ha presionado
-                                    break;
-                                }
-                            } else {
-                                cincoPressed = false;// Restablecemos el estado cuando la tecla se ha soltado
-                            }
-                            if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_6) & 0x8000) != 0) {
-                                if (!seisPressed) {
-                                    nivelNuevo = "6";
-                                    seisPressed = true; // Marcamos que ya se ha presionado
-                                    break;
-                                }
-                            } else {
-                                seisPressed = false;// Restablecemos el estado cuando la tecla se ha soltado
-                            }
-                            if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_7) & 0x8000) != 0) {
-                                if (!sietePressed) {
-                                    nivelNuevo = "7";
-                                    sietePressed = true; // Marcamos que ya se ha presionado
-                                    break;
-                                }
-                            } else {
-                                sietePressed = false;// Restablecemos el estado cuando la tecla se ha soltado
-                            }
-                            if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_8) & 0x8000) != 0) {
-                                if (!ochoPressed) {
-                                    nivelNuevo = "8";
-                                    ochoPressed = true; // Marcamos que ya se ha presionado
-                                    break;
-                                }
-                            } else {
-                                ochoPressed = false;// Restablecemos el estado cuando la tecla se ha soltado
-                            }
-                            if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_9) & 0x8000) != 0) {
-                                if (!nuevePressed) {
-                                    nivelNuevo = "9";
-                                    nuevePressed = true; // Marcamos que ya se ha presionado
-                                    break;
-                                }
-                            } else {
-                                nuevePressed = false;// Restablecemos el estado cuando la tecla se ha soltado
-                            }
+                    // Verifica si la tecla de "flecha abajo" es presionada y aún no ha sido registrada.
+                    if ((User32.INSTANCE.GetAsyncKeyState(VK_DOWN) & 0x8000) != 0) {
+                        if (!downPressed) {
+                            filaCorchete = moverAbajo(filaCorchete);
+                            downPressed = true;
+                            break;
                         }
-                        nivel = Integer.parseInt(nivelNuevo);
-
-                        //Generamos un nuevo tablero con el nivel de dificultad elegido.
-                        generarTablero(nivel);
+                    } else {
+                        downPressed = false;
                     }
-                    lPressed = true; // Marcamos que ya se ha presionado
-                    break;
 
-                } else {
-                    lPressed = false;// Restablecemos el estado cuando la tecla se ha soltado
-                }
+                    // Verifica si la tecla de "flecha izquierda" es presionada y aún no ha sido registrada.
+                    if ((User32.INSTANCE.GetAsyncKeyState(VK_LEFT) & 0x8000) != 0) {
+                        if (!leftPressed) {
+                            columnaCorchete = moverIzq(columnaCorchete);
+                            leftPressed = true;
+                            break;
+                        }
+                    } else {
+                        leftPressed = false;
+                    }
 
-                // Verifica si la tecla S es presionada y aún no ha sido registrada
-                if ((User32.INSTANCE.GetAsyncKeyState(LETRA_S) & 0x8000) != 0) {
+                    // Verifica si la tecla de "flecha derecha" es presionada y aún no ha sido registrada.
+                    if ((User32.INSTANCE.GetAsyncKeyState(VK_RIGHT) & 0x8000) != 0) {
+                        if (!rightPressed) {
+                            columnaCorchete = moverDcha(columnaCorchete);
+                            rightPressed = true;
+                            break;
+                        }
+                    } else {
+                        rightPressed = false;
+                    }
 
-                    //Si presionamos la tecla "S" saldremos del programa.
-                    if (!sPressed) {
-                        System.out.println("Gracias por jugar\nFIN DEL PROGRAMA");
-                        opcion = "S";
-                        sPressed = true; // Marcamos que ya se ha presionado
+                    // Verifica si la tecla "Enter" es presionada y aún no ha sido registrada
+                    if ((User32.INSTANCE.GetAsyncKeyState(VK_ENTER) & 0x8000) != 0) {
+                        if (!enterPressed) {
+                            golpear(filaCorchete, columnaCorchete, golpes);
+                            enterPressed = true; // Marcamos que ya se ha presionado
+                            break;
+                        }
+                    } else {
+                        enterPressed = false;// Restablecemos el estado cuando la tecla se ha soltado
+                    }
+
+                    // Verifica si la tecla "N" es presionada y aún no ha sido registrada
+                    if ((User32.INSTANCE.GetAsyncKeyState(LETRA_N) & 0x8000) != 0) {
+                        if (!nPressed) {
+                            golpes = 0;
+                            generarTablero(nivel);
+                            nPressed = true; // Marcamos que ya se ha presionado
+                            break;
+                        }
+                    } else {
+                        nPressed = false;// Restablecemos el estado cuando la tecla se ha soltado
+                    }
+
+                    // Verifica si la tecla "R" es presionada y aún no ha sido registrada
+                    if ((User32.INSTANCE.GetAsyncKeyState(LETRA_R) & 0x8000) != 0) {
+                        if (!rPressed) {
+                            golpes = 0;
+                            copiarTableroConCorchete();
+                            rPressed = true; // Marcamos que ya se ha presionado
+                            break;
+                        }
+                    } else {
+                        rPressed = false;// Restablecemos el estado cuando la tecla se ha soltado
+                    }
+                    // Verifica si la tecla "U" es presionada y aún no ha sido registrada
+                    if ((User32.INSTANCE.GetAsyncKeyState(LETRA_U) & 0x8000) != 0) {
+                        if (!uPressed) {
+                            if (golpes > 0) {
+                                // Obtener la última posición antes de reducir el tamaño.
+                                deshacerGolpe(); // Llamar antes de modificar los arrays.
+
+                                golpes--; // Reducimos golpes antes de modificar los arrays.
+
+                                if (golpes == 0) {
+                                    // Si no quedan golpes, dejamos los arrays vacíos.
+                                    golpesFilas = new int[0];
+                                    golpesColumnas = new int[0];
+                                } else {
+                                    // Crear nuevos arrays con un espacio menos.
+                                    int[] nuevoGolpesFilas = new int[golpes];
+                                    int[] nuevoGolpesColumnas = new int[golpes];
+
+                                    // Copiar todos los valores excepto el último.
+                                    for (int i = 0; i < golpes; i++) { // Ahora el límite es "golpes"
+                                        nuevoGolpesFilas[i] = golpesFilas[i];
+                                        nuevoGolpesColumnas[i] = golpesColumnas[i];
+                                    }
+
+                                    // Reemplazar los arrays antiguos con los nuevos.
+                                    golpesFilas = nuevoGolpesFilas;
+                                    golpesColumnas = nuevoGolpesColumnas;
+                                }
+                            } else {
+                                System.out.println("No hay golpes para deshacer.");
+                            }
+                            uPressed = true; // Marcamos que ya se ha presionado
+                            break;
+                        }
+                    } else {
+                        uPressed = false;// Restablecemos el estado cuando la tecla se ha soltado.
+                    }
+
+                    // Verifica si la tecla "L" es presionada y aún no ha sido registrada.
+                    if ((User32.INSTANCE.GetAsyncKeyState(LETRA_L) & 0x8000) != 0) {
+
+
+                        //Seleccionamos el nivel de dificultad del tablero.
+                        if (!lPressed) {
+                            String nivelNuevo = String.valueOf(nivel);
+
+                            System.out.print("Nivel de juego ( L ) : " + nivel + "\t\tNuevo nivel (1-9): ");
+
+                            // Dificultades del 1 al 9.
+                            while (true) {
+
+                                if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_1) & 0x8000) != 0) {
+                                    if (!unoPressed) {
+                                        nivelNuevo = "1";
+                                        unoPressed = true; // Marcamos que ya se ha presionad
+                                        break;
+                                    }
+                                } else {
+                                    unoPressed = false;// Restablecemos el estado cuando la tecla se ha soltado
+                                }
+                                if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_2) & 0x8000) != 0) {
+                                    if (!dosPressed) {
+                                        nivelNuevo = "2";
+                                        dosPressed = true; // Marcamos que ya se ha presionado
+                                        break;
+                                    }
+                                } else {
+                                    dosPressed = false;// Restablecemos el estado cuando la tecla se ha soltado
+                                }
+                                if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_3) & 0x8000) != 0) {
+                                    if (!tresPressed) {
+                                        nivelNuevo = "3";
+                                        tresPressed = true; // Marcamos que ya se ha presionado
+                                        break;
+                                    }
+                                } else {
+                                    tresPressed = false;// Restablecemos el estado cuando la tecla se ha soltado
+                                }
+                                if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_4) & 0x8000) != 0) {
+                                    if (!cuatroPressed) {
+                                        nivelNuevo = "4";
+                                        cuatroPressed = true; // Marcamos que ya se ha presionado
+                                        break;
+                                    }
+                                } else {
+                                    cuatroPressed = false;// Restablecemos el estado cuando la tecla se ha soltado
+                                }
+                                if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_5) & 0x8000) != 0) {
+                                    if (!cincoPressed) {
+                                        nivelNuevo = "5";
+                                        cincoPressed = true; // Marcamos que ya se ha presionado
+                                        break;
+                                    }
+                                } else {
+                                    cincoPressed = false;// Restablecemos el estado cuando la tecla se ha soltado
+                                }
+                                if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_6) & 0x8000) != 0) {
+                                    if (!seisPressed) {
+                                        nivelNuevo = "6";
+                                        seisPressed = true; // Marcamos que ya se ha presionado
+                                        break;
+                                    }
+                                } else {
+                                    seisPressed = false;// Restablecemos el estado cuando la tecla se ha soltado
+                                }
+                                if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_7) & 0x8000) != 0) {
+                                    if (!sietePressed) {
+                                        nivelNuevo = "7";
+                                        sietePressed = true; // Marcamos que ya se ha presionado
+                                        break;
+                                    }
+                                } else {
+                                    sietePressed = false;// Restablecemos el estado cuando la tecla se ha soltado
+                                }
+                                if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_8) & 0x8000) != 0) {
+                                    if (!ochoPressed) {
+                                        nivelNuevo = "8";
+                                        ochoPressed = true; // Marcamos que ya se ha presionado
+                                        break;
+                                    }
+                                } else {
+                                    ochoPressed = false;// Restablecemos el estado cuando la tecla se ha soltado
+                                }
+                                if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_9) & 0x8000) != 0) {
+                                    if (!nuevePressed) {
+                                        nivelNuevo = "9";
+                                        nuevePressed = true; // Marcamos que ya se ha presionado
+                                        break;
+                                    }
+                                } else {
+                                    nuevePressed = false;// Restablecemos el estado cuando la tecla se ha soltado
+                                }
+                            }
+                            nivel = Integer.parseInt(nivelNuevo);
+
+                            //Generamos un nuevo tablero con el nivel de dificultad elegido.
+                            generarTablero(nivel);
+                        }
+                        lPressed = true; // Marcamos que ya se ha presionado
                         break;
-                    }
-                } else {
-                    sPressed = false;// Restablecemos el estado cuando la tecla se ha soltado.
-                }
 
+                    } else {
+                        lPressed = false;// Restablecemos el estado cuando la tecla se ha soltado
+                    }
+
+                    // Verifica si la tecla S es presionada y aún no ha sido registrada
+                    if ((User32.INSTANCE.GetAsyncKeyState(LETRA_S) & 0x8000) != 0) {
+
+                        //Si presionamos la tecla "S" saldremos del programa.
+                        if (!sPressed) {
+                            System.out.println("Gracias por jugar\nFIN DEL PROGRAMA");
+                            opcion = "S";
+                            sPressed = true; // Marcamos que ya se ha presionado
+                            break;
+                        }
+                    } else {
+                        sPressed = false;// Restablecemos el estado cuando la tecla se ha soltado.
+                    }
+
+                }
             }
 
         } while (!opcion.equals("S")); //Bucle hasta que se presiona la tecla S.
@@ -472,7 +474,7 @@ public class Practica2 {
 
         // Si el valor de la casilla es cero, pasa a ser 3.
         if (tablero[fila][columna] < 0) {
-            tablero[fila][columna] = 3;
+            tablero[fila][columna] = VALOR_MAX;
         }
 
     }
@@ -482,7 +484,7 @@ public class Practica2 {
         tablero[fila][columna] = tablero[fila][columna] + 1;
 
         // Si el valor de la casilla es 3, pasa a ser 0.
-        if (tablero[fila][columna] > 3) {
+        if (tablero[fila][columna] > VALOR_MAX) {
             tablero[fila][columna] = 0;
         }
 
