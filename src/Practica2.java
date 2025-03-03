@@ -1,3 +1,7 @@
+/*
+    Galindo, Blanco, Héctor
+ */
+
 import com.sun.jna.Native;
 import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef;
@@ -250,10 +254,9 @@ public class Practica2 {
                     // Verifica si la tecla "L" es presionada y aún no ha sido registrada.
                     if ((User32.INSTANCE.GetAsyncKeyState(LETRA_L) & 0x8000) != 0) {
 
-
                         //Seleccionamos el nivel de dificultad del tablero.
                         if (!lPressed) {
-                            String nivelNuevo = String.valueOf(nivel);
+                            int nivelNuevo;
 
                             System.out.print("Nivel de juego ( L ) : " + nivel + "\t\tNuevo nivel (1-9): ");
 
@@ -262,7 +265,7 @@ public class Practica2 {
 
                                 if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_1) & 0x8000) != 0) {
                                     if (!unoPressed) {
-                                        nivelNuevo = "1";
+                                        nivelNuevo = 1;
                                         unoPressed = true; // Marcamos que ya se ha presionad
                                         break;
                                     }
@@ -271,7 +274,7 @@ public class Practica2 {
                                 }
                                 if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_2) & 0x8000) != 0) {
                                     if (!dosPressed) {
-                                        nivelNuevo = "2";
+                                        nivelNuevo = 2;
                                         dosPressed = true; // Marcamos que ya se ha presionado
                                         break;
                                     }
@@ -280,7 +283,7 @@ public class Practica2 {
                                 }
                                 if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_3) & 0x8000) != 0) {
                                     if (!tresPressed) {
-                                        nivelNuevo = "3";
+                                        nivelNuevo = 3;
                                         tresPressed = true; // Marcamos que ya se ha presionado
                                         break;
                                     }
@@ -289,7 +292,7 @@ public class Practica2 {
                                 }
                                 if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_4) & 0x8000) != 0) {
                                     if (!cuatroPressed) {
-                                        nivelNuevo = "4";
+                                        nivelNuevo = 4;
                                         cuatroPressed = true; // Marcamos que ya se ha presionado
                                         break;
                                     }
@@ -298,7 +301,7 @@ public class Practica2 {
                                 }
                                 if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_5) & 0x8000) != 0) {
                                     if (!cincoPressed) {
-                                        nivelNuevo = "5";
+                                        nivelNuevo = 5;
                                         cincoPressed = true; // Marcamos que ya se ha presionado
                                         break;
                                     }
@@ -307,7 +310,7 @@ public class Practica2 {
                                 }
                                 if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_6) & 0x8000) != 0) {
                                     if (!seisPressed) {
-                                        nivelNuevo = "6";
+                                        nivelNuevo = 6;
                                         seisPressed = true; // Marcamos que ya se ha presionado
                                         break;
                                     }
@@ -316,7 +319,7 @@ public class Practica2 {
                                 }
                                 if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_7) & 0x8000) != 0) {
                                     if (!sietePressed) {
-                                        nivelNuevo = "7";
+                                        nivelNuevo = 7;
                                         sietePressed = true; // Marcamos que ya se ha presionado
                                         break;
                                     }
@@ -325,7 +328,7 @@ public class Practica2 {
                                 }
                                 if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_8) & 0x8000) != 0) {
                                     if (!ochoPressed) {
-                                        nivelNuevo = "8";
+                                        nivelNuevo = 8;
                                         ochoPressed = true; // Marcamos que ya se ha presionado
                                         break;
                                     }
@@ -334,7 +337,7 @@ public class Practica2 {
                                 }
                                 if ((User32.INSTANCE.GetAsyncKeyState(NUMERO_9) & 0x8000) != 0) {
                                     if (!nuevePressed) {
-                                        nivelNuevo = "9";
+                                        nivelNuevo = 9;
                                         nuevePressed = true; // Marcamos que ya se ha presionado
                                         break;
                                     }
@@ -342,10 +345,13 @@ public class Practica2 {
                                     nuevePressed = false;// Restablecemos el estado cuando la tecla se ha soltado
                                 }
                             }
-                            nivel = Integer.parseInt(nivelNuevo);
+                            //Si el nivel elegido es distinto al nivel actual.
+                            if (nivelNuevo != nivel) {
+                                nivel = nivelNuevo;
 
-                            //Generamos un nuevo tablero con el nivel de dificultad elegido.
-                            generarTablero(nivel);
+                                //Generamos un nuevo tablero con el nivel de dificultad elegido.
+                                generarTablero(nivel);
+                            }
                         }
                         lPressed = true; // Marcamos que ya se ha presionado
                         break;
