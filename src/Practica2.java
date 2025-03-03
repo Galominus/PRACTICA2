@@ -126,7 +126,7 @@ public class Practica2 {
                 }
 
             } else {
-
+                // Si el tablero no está a cero.
 
                 // Bucle para detectar las pulsaciones de teclas.
                 while (true) {
