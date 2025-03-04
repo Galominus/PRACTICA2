@@ -579,11 +579,11 @@ public class Practica2 {
         return ganador;
     }
 
-    // Función para golpear(incrementar) X veces según el nivel elegido.
+    // Función para saber los golpes en los que se puede resolver el tablero según el nivel.
     public static int obtenerGolpesEsperados() {
         int valor = 15; //Valor por defecto con nivel 5
 
-        // Según el nivel elegido, daremos los golpes incrementados.
+        // Golpes según el nivel completado.
         switch (nivel) {
             case 1 -> {
                 valor = 3;
