@@ -500,9 +500,9 @@ public class Practica2 {
     public static int moverArriba(int fila) {
         fila--;
 
-        // Si sube más allá de la fila 1, vuelve a la última fila.
+        // Si sube más allá de la fila 1, vuelve a la última fila mostrable.
         if (fila < 1) {
-            fila = 6;
+            fila = TAM - 2;
         }
         return fila;
     }
@@ -511,8 +511,8 @@ public class Practica2 {
     public static int moverAbajo(int fila) {
         fila++;
 
-        // Si baja más allá de la fila 6, vuelve a la primera fila.
-        if (fila > 6) {
+        // Si baja más allá de la última fila, vuelve a la primera fila mostrable.
+        if (fila > TAM - 2) {
             fila = 1;
         }
         return fila;
@@ -522,9 +522,9 @@ public class Practica2 {
     public static int moverIzq(int columna) {
         columna--;
 
-        // Si va más allá de la columna 1, vuelve a la última columna.
+        // Si va más allá de la columna 1, vuelve a la última columna mostrable.
         if (columna < 1) {
-            columna = 6;
+            columna = TAM - 2;
         }
         return columna;
     }
@@ -533,8 +533,8 @@ public class Practica2 {
     public static int moverDcha(int columna) {
         columna++;
 
-        // Si va más allá de la fila 6, vuelve a la primera columna.
-        if (columna > 6) {
+        // Si va más allá de la última columna mostrable, vuelve a la columna 1.
+        if (columna > TAM - 2) {
             columna = 1;
         }
         return columna;
