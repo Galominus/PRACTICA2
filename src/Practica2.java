@@ -24,6 +24,7 @@ public class Practica2 {
     private static int[][] tableroCopia = new int[TAM][TAM];
     private static int[] golpesFilas = new int[0];
     private static int[] golpesColumnas = new int[0];
+    private static String dificultad = "Normal";
 
     public static final int VK_UP = 0x26;   // Tecla flecha arriba
     public static final int VK_DOWN = 0x28; // Tecla flecha abajo
@@ -82,13 +83,20 @@ public class Practica2 {
             // Limpiar la pantalla antes de cada ciclo del juego
             borrar(); // Llamamos a borrar() para limpiar la pantalla antes de mostrar la interfaz
 
+            // Guardamos la dificultad en un String según el nivel.
+            if (nivel < 5) {
+                dificultad = "Fácil";
+            } else if (nivel == 5) {
+                dificultad = "Normal";
+            } else dificultad = "Dificil";
+
             // Mostramos el menú y el tablero (la primera vez se genera un tablero de lvl 5).
             System.out.println("\nNuevo ( N ) - Recomenzar ( R ) - Deshacer ( U ) - Salir ( S )  ");
             System.out.println();
 
             mostrarTableroConCorchete(filaCorchete, columnaCorchete);
 
-            System.out.println("\nNivel de juego ( L ) :" + nivel);
+            System.out.println("\nNivel de juego ( L ) :" + dificultad + " " + "(" + nivel * 3 + ")");
             System.out.println("\nGolpes: " + golpes);
             System.out.println("Intrucciones:");
             System.out.println("\t Mueva el cursor a un botón del tablero (con las flechas).");
@@ -258,7 +266,7 @@ public class Practica2 {
                         if (!lPressed) {
                             int nivelNuevo;
 
-                            System.out.print("Nivel de juego ( L ) : " + nivel + "\t\tNuevo nivel (1-9): ");
+                            System.out.print("Nivel de juego ( L ) : " + dificultad + " " + "(" + nivel * 3 + ")" + "\t\tNuevo nivel (1-9): ");
 
                             // Dificultades del 1 al 9.
                             while (true) {
@@ -556,7 +564,7 @@ public class Practica2 {
             aumentar(fila, columna + 1);
 
         } else {
-            System.out.println("No hay golpes para deshacer.");
+            System.out.println("U hay golpes para deshacer.");
         }
 
     }
